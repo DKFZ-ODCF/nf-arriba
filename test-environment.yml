@@ -6,3 +6,4 @@ channels:
 dependencies:
   - poppler=0.90.1
   - nextflow
+  - samtools

@@ -1,6 +1,6 @@
 #!/bin/bash
 #
-# Copyright (c) 2021 DKFZ.
+# Copyright (c) 2022 DKFZ.
 #
 # Distributed under the MIT License (license terms are at https://github.com/DKFZ-ODCF/nf-arriba/blob/master/LICENSE).
 #

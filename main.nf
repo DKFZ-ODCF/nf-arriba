@@ -1,5 +1,5 @@
 /**
- *  Copyright (c) 2021 DKFZ.
+ *  Copyright (c) 2022 DKFZ.
  *
  *  Distributed under the MIT License (license terms are at https://github.com/DKFZ-ODCF/nf-arriba/blob/master/LICENSE).
  *
@@ -24,7 +24,7 @@ void checkParameters(parameters, List<String> allowedParameters) {
 		exit(1)
 	}
 }
-allowedParameters = ['arribaVersion','threads','starMemory','arribaMemory','sortMemory','fastq1','fastq2','bam','outputDir','sophiaSVs','preset','dataDir','starIndex','assembly','annotation','blacklist','knownFusions','proteinDomains','cytobands']
+allowedParameters = ['arribaVersion','threads','starMemory','arribaMemory','sortMemory','fastq1','fastq2','bam','outputDir','sophiaSVs','preset','dataDir','starIndex','assembly','annotation','blacklist','knownFusions','proteinDomains','cytobands','viralContigs']
 checkParameters(params, allowedParameters)
 
 
@@ -51,9 +51,13 @@ process arriba {
 
 	output:
 		file 'fusions.tsv' into fusions
-		file 'fusions.discarded.tsv.gz' into fusions_discarded
+		file 'fusions_discarded.tsv.gz' into fusions_discarded
 		file 'fusions.pdf' into fusions_pdf
+		file 'fusions_alignments.bam' into fusions_alignments
+		file 'fusions_alignments.bam.bai' into fusions_alignments_index
 		file 'virus_expression.tsv' into virus_expression
+		file 'virus_alignments.bam' into virus_alignments
+		file 'virus_alignments.bam.bai' into virus_alignments_index
 
 	shell:
 		"""
@@ -71,6 +75,7 @@ process arriba {
 		THREADS="$params.threads" \
 		SORT_MEMORY="$params.sortMemory" \
 		OUTPUT_DIR="$params.outputDir" \
+		VIRAL_CONTIGS="$params.viralContigs" \
 		main.sh 2>&1
 		"""
 

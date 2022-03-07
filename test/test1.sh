@@ -17,7 +17,7 @@ TEST_ERRORS=0
 
 runTest() {
 	# delete output files from previous run
-	rm -f "$outDir/"{fusions.tsv,fusions.discarded.tsv.gz,fusions.pdf,virus_expression.tsv}
+	rm -f "$outDir/"{fusions.tsv,fusions_discarded.tsv.gz,fusions.pdf,fusions_alignments.bam,fusions_alignments.bam.bai,virus_expression.tsv,virus_alignments.bam,virus_alignments.bam.bai}
 
 	# run test
 	(set -x; nextflow run "$workflowDir/main.nf" \
@@ -41,6 +41,10 @@ runTest() {
 
 	# check if the expected viral genome is listed in the virus expression file
 	grep -q NC_001357 "$outDir/virus_expression.tsv" || ERROR="$ERROR\nERROR: missing virus expression"
+
+	# check if interesting reads were extracted
+	[ $(samtools view "$outDir/fusions_alignments.bam" | wc -l) -ne 0 ] || ERROR="$ERROR\nERROR: missing fusion alignments"
+	[ $(samtools view "$outDir/virus_alignments.bam" | wc -l) -ne 0 ] || ERROR="$ERROR\nERROR: missing viral alignments"
 
 	# summarize errors
 	if [ -n "$ERROR" ]; then

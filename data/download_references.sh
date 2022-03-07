@@ -7,12 +7,12 @@ conda env create -f ../task-environment.yml -p conda
 source activate ./conda
 
 # download & build references
-for REFERENCE in hs37d5viral+GENCODE19 GRCh38viral+GENCODE28 GRCm38viral+GENCODEM25; do
+for REFERENCE in hs37d5viral+GENCODE19 GRCh38viral+GENCODE28 GRCm38viral+GENCODEM25 GRCm39viral+GENCODEM26; do
 	"$CONDA_PREFIX/var/lib/arriba/download_references.sh" "$REFERENCE"
 done
 
 # install database files
-mv "$CONDA_PREFIX/var/lib/arriba/"{blacklist,cytobands,known_fusions,protein_domains}* .
+cp "$CONDA_PREFIX/var/lib/arriba/"{blacklist,cytobands,known_fusions,protein_domains}* .
 
 # cleanup
 rm -rf conda

@@ -1,4 +1,9 @@
 #!/usr/bin/awk -f
+#
+# Copyright (c) 2022 DKFZ.
+#
+# Distributed under the MIT License (license terms are at https://github.com/DKFZ-ODCF/nf-arriba/blob/master/LICENSE).
+#
 
 BEGIN { FS="\t" } # Sophia files are tab-separated
 

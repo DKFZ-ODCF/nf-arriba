@@ -1,0 +1,8 @@
+name: nf-arriba
+channels:
+  - conda-forge
+  - bioconda
+  - defaults
+dependencies:
+  - arriba=2.1.0
+  - STAR=2.7.8a

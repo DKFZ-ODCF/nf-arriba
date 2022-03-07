@@ -1,0 +1,14 @@
+.idea
+.nextflow*
+data/
+work/
+test_out/
+*.txt
+*.txt.*
+*.png
+*.png.*
+*.html
+*.html.*
+*~
+*.sif
+

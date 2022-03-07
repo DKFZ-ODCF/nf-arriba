@@ -1,0 +1,8 @@
+name: nf-arriba-test
+channels:
+  - conda-forge
+  - bioconda
+  - defaults
+dependencies:
+  - poppler=0.90.1
+  - nextflow

@@ -24,13 +24,13 @@ void checkParameters(parameters, List<String> allowedParameters) {
 		exit(1)
 	}
 }
-allowedParameters = ['arribaVersion','threads','starMemory','arribaMemory','sortMemory','fastq1','fastq2','bam','outputDir','sophiaSVs','preset','dataDir','starIndex','assembly','annotation','blacklist','knownFusions','proteinDomains','cytobands','viralContigs']
+allowedParameters = ['arribaVersion','threads','memory','fastq1','fastq2','bam','outputDir','sophiaSVs','preset','dataDir','starIndex','assembly','annotation','blacklist','knownFusions','proteinDomains','cytobands','viralContigs','ignoreViruses']
 checkParameters(params, allowedParameters)
 
 
 process arriba {
 	cpus params.threads
-	memory { 1.MB * (Math.max(params.starMemory, params.sortMemory) + params.arribaMemory) }
+	memory { 1.MB * params.memory }
 	time { 48.hours * (2**task.attempt - 1) }
 	maxRetries 2
 
@@ -73,9 +73,10 @@ process arriba {
 		PROTEIN_DOMAINS="$proteinDomains" \
 		CYTOBANDS="$cytobands" \
 		THREADS="$params.threads" \
-		SORT_MEMORY="$params.sortMemory" \
+		MEMORY="$params.memory" \
 		OUTPUT_DIR="$params.outputDir" \
 		VIRAL_CONTIGS="$params.viralContigs" \
+		IGNORE_VIRUSES="$params.ignoreViruses" \
 		main.sh 2>&1
 		"""
 

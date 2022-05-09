@@ -54,32 +54,22 @@ samtools sort -@ "$THREADS" -m "$((MEMORY/THREADS*85/100))M" -l 1 -T "$(pwd)" --
 rm -f alignments.bam
 
 # quantify expression of viral genomes
-(
-	quantify_virus_expression.sh sorted.bam virus_expression.tsv
-) & QUANTIFY_VIRUS_EXPRESSION_PID=$!
+quantify_virus_expression.sh sorted.bam virus_expression.tsv
 
 # find all viruses with mapped reads and extract their alignments
-(
-	samtools idxstats sorted.bam |
-	awk -v contigs="$VIRAL_CONTIGS" '$3 > 0 && match($1, contigs) {print $1 "\t0\t" $2}' |
-	samtools view -F 2048 -M -L /dev/stdin -O "BAM,level=9" --write-index -o virus_alignments.bam##idx##virus_alignments.bam.bai sorted.bam
-) & VIRUS_ALIGNMENTS_PID=$!
+samtools idxstats sorted.bam |
+awk -v contigs="$VIRAL_CONTIGS" '$3 > 0 && match($1, contigs) {print $1 "\t0\t" $2}' |
+samtools view -F 2048 -M -L /dev/stdin -O "BAM,level=9" --write-index -o virus_alignments.bam##idx##virus_alignments.bam.bai sorted.bam
 
 # extract fusion-supporting alignments
-(
-	extract_fusion-supporting_alignments.sh fusions.tsv sorted.bam extracted
-	samtools merge -O SAM - extracted*.bam |
-	awk '!duplicate[$0]++' |
-	samtools view -O "BAM,level=9" --write-index -o fusions_alignments.bam##idx##fusions_alignments.bam.bai
-	rm -f extracted*.bam*
-) & FUSIONS_ALIGNMENTS_PID=$!
+extract_fusion-supporting_alignments.sh fusions.tsv sorted.bam extracted
+samtools merge -O SAM - extracted*.bam |
+awk '!duplicate[$0]++' |
+samtools view -O "BAM,level=9" --write-index -o fusions_alignments.bam##idx##fusions_alignments.bam.bai
+rm -f extracted*.bam*
 
 # draw fusion plots
-(
-	draw_fusions.R \
-		--fusions=fusions.tsv --output=fusions.pdf --alignments=sorted.bam \
-		--annotation="$ANNOTATION" --cytobands="$CYTOBANDS" --proteinDomains="$PROTEIN_DOMAINS"
-) & DRAW_FUSIONS_PID=$!
-
-wait $QUANTIFY_VIRUS_EXPRESSION_PID $VIRUS_ALIGNMENTS_PID $FUSIONS_ALIGNMENTS_PID $DRAW_FUSIONS_PID
+draw_fusions.R \
+	--fusions=fusions.tsv --output=fusions.pdf --alignments=sorted.bam \
+	--annotation="$ANNOTATION" --cytobands="$CYTOBANDS" --proteinDomains="$PROTEIN_DOMAINS"
 

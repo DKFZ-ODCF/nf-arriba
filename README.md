@@ -44,6 +44,7 @@ nextflow run main.nf \
 - `--memory`: Memory limit (in MB). It must be big enough to accomodate the STAR index + Arriba. At least 60 GB is recommended.
 - `--arribaVersion`: The version of Arriba to use.
 - `--viralContigs`: A regular expression to match the names of viral contigs. By default, viral contigs are assumed to start with `AC_` or `NC_`.
+- `--ignoreViruses`:  A regular expression to match the names of viral contigs that should be omitted from the output files. The default is `Coliphage`.
 
 ### Output
 

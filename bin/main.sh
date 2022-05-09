@@ -63,7 +63,11 @@ samtools view -F 2048 -M -L /dev/stdin -O "BAM,level=9" --write-index -o virus_a
 
 # extract fusion-supporting alignments
 extract_fusion-supporting_alignments.sh fusions.tsv sorted.bam extracted
-samtools merge -O SAM - extracted*.bam |
+if [ -e extracted_1.bam ]; then
+	samtools merge -O SAM - extracted*.bam
+else
+	samtools view -H sorted.bam # generate empty BAM containing only header
+fi |
 awk '!duplicate[$0]++' |
 samtools view -O "BAM,level=9" --write-index -o fusions_alignments.bam##idx##fusions_alignments.bam.bai
 rm -f extracted*.bam*

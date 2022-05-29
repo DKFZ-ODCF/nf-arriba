@@ -7,7 +7,7 @@ conda env create -f ../task-environment.yml -p conda
 source activate ./conda
 
 # download & build references
-for REFERENCE in hs37d5viral+GENCODE19 GRCh38viral+GENCODE28 GRCm38viral+GENCODEM25 GRCm39viral+GENCODEM26; do
+for REFERENCE in hs37d5viral+GENCODE19 GRCh38viral+GENCODE38 GRCm38viral+GENCODEM25 GRCm39viral+GENCODEM27; do
 	"$CONDA_PREFIX/var/lib/arriba/download_references.sh" "$REFERENCE"
 done
 

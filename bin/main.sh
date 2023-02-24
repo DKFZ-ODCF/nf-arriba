@@ -46,7 +46,8 @@ arriba \
 	-a "$ASSEMBLY" -g "$ANNOTATION" \
 	-b "$BLACKLIST" -k "$KNOWN_FUSIONS" -t "$KNOWN_FUSIONS" -p "$PROTEIN_DOMAINS" \
 	-d structural_variants.tsv -f "no_genomic_support,genomic_support" \
-	-o fusions.tsv -O fusions_discarded.tsv
+	-o fusions.tsv -O fusions_discarded.tsv \
+	-I
 gzip -9 fusions_discarded.tsv
 
 # sort and index alignments

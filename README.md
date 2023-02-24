@@ -144,6 +144,15 @@ The integration tests are also run in Travis CI.
 
 ## Release Notes
 
+- 0.4.0 (February 24, 2023)
+
+  * Arriba 2.4.0
+  * remove bash parallelism
+  * exit gracefully when 0 fusions are called
+  * update references
+  * configure memory reservation for DKFZ HPC cluster
+  * print full transcript sequence
+
 - 0.3.0 (January 28, 2022)
 
   * Arriba 2.2.1
